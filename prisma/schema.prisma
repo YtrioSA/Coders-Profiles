@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model code_profiles {
+  user_name     String  @id @db.VarChar
+  url_profile   String  @db.VarChar
+  name          String  @db.VarChar
+  bio           String
+  profile_link  String  @db.VarChar
+  posts_numbers Int
+  posts         posts[]
+}
+
+model posts {
+  id               Int            @id @default(autoincrement())
+  url_cover        String         @db.VarChar
+  title            String         @db.VarChar
+  link             String         @db.VarChar
+  code_profiles_id String?        @db.VarChar
+  code_profiles    code_profiles? @relation(fields: [code_profiles_id], references: [user_name], onDelete: NoAction, onUpdate: NoAction)
+}
+
+
+
